@@ -6,4 +6,4 @@ Schedule:
 
 | Session | Date        | Topic    | Speaker     | Slides              |
 | ------- | ----------- |----------|-------------|---------------------|
-| 01      | 2024_11_04  | Kick-off | Jenny Bryan | [slides_session_01](https://github.com/rladiesboookclub/happygitwithr/blob/main/session_01_20241106/session_01_intro.pdf)|
+| 01      | 2024_11_06  | Kick-off | Jenny Bryan | [slides_session_01](https://github.com/rladiesboookclub/happygitwithr/blob/main/session_01_20241106/session_01_intro.pdf)|
