@@ -48,14 +48,15 @@ library(fontawesome) # 0.4.0
 
 -  R-Ladies is dedicated to providing a harassment-free experience for everyone
 -  We do not tolerate harassment of participants in any form
--  See [the code of conduct.](https://rladies.org/code-of-conduct/)
+-  See [the code of conduct](https://rladies.org/code-of-conduct/)
 
 # Welcome to the boook club!
 
-- Joint effort RLadies Bergen, R-Ladies Den Bosch and R-Ladies Amsterdam  
-- Every 2 weeks visit a chapter of the book  
+-  Joint effort RLadies Bergen, R-Ladies Den Bosch and R-Ladies Amsterdam  
+-  Every 2 weeks visit a chapter of the book  
 ["Happy Git and Github for the useR](https://happygitwithr.com/) by Jenny Bryan
-- Sessions are not recorded, slides are shared 
+-  Sessions are not recorded
+-  [Slides are shared](https://github.com/rladiesboookclub/happygitwithr)
 
 # What to expect from this boook club
 
