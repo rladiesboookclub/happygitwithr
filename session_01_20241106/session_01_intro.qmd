@@ -22,12 +22,15 @@ library(fontawesome) # 0.4.0
 
 # Program for today
 
--  Intro to R-Ladies (Sehee)
--  Intro boook club (Sehee)
--  Intro Jenny (Martine)
--  Talk with Jenny (Kylie)
--  Time left? start with chps 1/2 (Sehee)
-
+-  Intro **R-Ladies**
+-  Intro **book club**
+-  Intro speaker: **Jenny Bryan**
+<BR>
+-  Talk with Jenny
+    -  about the book [Happy Git and GitHub for the useR](https://happygitwithr.com/)
+    -  Q&A
+<BR>
+-  If time left: Presentation of Chapter 2 (Installation) & Chapter 3(Connect Git, GitHub, RStudio)
 
 ## R-Ladies {background-image="border.png"}
 
@@ -53,18 +56,32 @@ library(fontawesome) # 0.4.0
 # Welcome to the boook club!
 
 -  Joint effort RLadies Bergen, R-Ladies Den Bosch and R-Ladies Amsterdam  
--  Every second Tuesday (5 PM CET) we will visit a chapter of the book  
+-  Every second Tuesday (5 PM CET) led by a presenter  
 ["Happy Git and Github for the useR](https://happygitwithr.com/) by Jenny Bryan
 -  Sessions are not recorded
 -  [Slides are shared](https://github.com/rladiesboookclub/happygitwithr)
 
 # What to expect from this boook club
 
--  Presentations summarising the key points on each topic of the book
--  Room to discuss questions and other thoughts
--  Not necessary to read the chapters in advance, but feel free to do so
--  During sessions, we can share thoughts in a google doc (link shared in chat)
--  Session every 2nd tuesday, at 5 pmm lead by presenter
+-  Presentation of a “big” book chapter: Summary, demonstration
+-  Open discussion for questions and thoughts
+-  Optional pre-reading of chapters 
+    -  *Could be a good idea though!*
+-  Shared doc for notes and questions
+-  Arrangements organized and shared via Meetup - BECOME A
+MEMBER OF YOUR CHAPTER!
+    -  [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -  [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+    -  [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+
+# Are YOU the next presenter?
+
+-  We are looking for speaker to present chapters
+-  Not necessary to be an expert, we are learning together
+-  Let us know via meetup, if you are interested
+    -  [Sehee, R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -  [Martine, R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+    -  [Kylie, R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)    
 
 
 # Jenny Bryan
@@ -84,6 +101,13 @@ library(fontawesome) # 0.4.0
 ![](tenor.gif){.absolute top=100 left=0 width="800"}
 
 ![](gitwit.png){.absolute top=130 left=280 width=120 }
+
+
+# Documentation shared by Jenny
+
+-  Workshop repo  [What They Forgot to Teach You About R"](https://github.com/rstats-wtf/wtf-2022-rsc)  
+    -  workshop from posit conf 2022, which included about a half day on Git/GitHub
+    -  look in the "materials" folder for slides, there are 2 PDFs about Git and GitHub
 
 
 ```{r, eval = FALSE}
