@@ -1,0 +1,121 @@
+---
+title: "Session 02:\\
+
+Ch 2 (Installation) &\\
+
+Ch 3 (Connect Git, GitHub, RStudio)"
+
+subtitle: "Book club: [Happy Git and GitHub for the useR](https://happygitwithr.com/)\\
+
+R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+
+author: ""
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    auto-scale: true
+    pdf-max-pages-per-slide: 1
+    footer: "[Book club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam]"
+    incremental: true
+---
+
+```{r}
+library(fontawesome) # 0.4.0
+
+```
+
+##  {background-color="#562457"}
+
+# Program for today
+
+-   Presentation of **Chapter 2 (Installation)** & 
+-   Presentation of **Chapter 3 (Connect Git, GitHub, RStudio)**
+
+# House rules for R-Ladies arrangements
+
+-   R-Ladies is dedicated to providing a harassment-free experience for everyone
+-   We do not tolerate harassment of participants in any form
+-   See the [code of conduct.](https://rladies.org/coc/)
+
+## A good start is a great beginning!
+![Alt text](prerequisites.png)
+
+## Chapter 2: Installation
+
+-   **Register a free [GitHub](https://github.com) account**
+    -   Can have unlimited number of private repos (up to 3 collaborators)
+-   **Install or upgrade R and RStudio**
+    -   Install/Update [R](https://cloud.r-project.org%20/%20«installr»-package)
+    -   Install [RStudio](https://posit.co/download/rstudio-desktop/) (Posit)
+    -   Update your R packages:
+        -   `update.packages(ask = FALSE, checkBuilt = TRUE)`
+    -   Update:
+        -   **R** *1-2 times/year*
+        -   **RStudio (Posit)** *every month*
+
+## Chapter 2: Installation
+
+-   **Install Git**
+    -   ***Windows*** **1**: Git for Windows ([Git Bash](https://gitforwindows.org/)) / **2**: via Chocolatey
+        -   `Update git update-git-for-windows`
+    -   ***macOS*** **1**: Xcode command line tools / **2**: via this [link](http://git-scm.com/downloads) / **3**: through Homebrew (missing package manager for OS X)
+    -   ***Linux***
+
+## Chapter 2: Installation
+
+-   **Introduce yourself to Git** Making yourself identifiable
+    -   ***1***: Shell *git config*
+        -   `git config --global user.name "Jane Doe"`
+        -   `git config --global user.email "jane@example.com"`
+        -   `git config --global --list`
+    -   ***2***: RStudio (Posit) *«usethis»-package*
+        -   `use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")`
+    -   Check: `git config –global --list`
+    -   Configure the Editor `git config –global core.editor`
+    -   Configure the default name for an initial branch (e.g., "main") 
+        -   **1**: Shell `git config --global init.defaultBranch main`
+        -   **2**: R `usethis::git_default_branch_configure()`
+ 
+## Chapter 2: Installation
+
+-   **Install a Git client** For more graphical interface instead of command lines
+    -   Git (=R) vs. Git Client (=RStudio/Posit)
+    -   [GitKraken](https://www.gitkraken.com/) / [SourceTree](https://www.sourcetreeapp.com/) / [GitHub Desktop](https://github.com/apps/desktop)
+
+## Chapter 3: Connect Git, GitHub, RStudio
+
+-   **Credential setup** To be identified as a specific GitHub user
+    -   Git’s communication with a remote server **2 protocols**
+    -   **1: Personal access token (PAT) for HTTPS**
+        -   **1**: Through this [link](https://github.com/settings/tokens) -\> «Generate token» (Select «repo», «user», «workflow»)
+        -   **2**: R console `usethis::create_github_token()`
+            -   Can store the PAT in R `gitcreds::gitcreds_set()`
+            -   Paste the PAT
+    -   **2: Set up keys for SSH** More secure
+        -   Create a public-private SSH key pair -\> Add the private key to your ssh-agent -\> Add your public key to your GitHub profile
+        -   SSH should be swapped around once a year
+
+## Chapter 3: Connect Git, GitHub, RStudio
+
+-   **Connect to GitHub**
+    -   Make a repo on GitHub
+    -   Clone the repo to your local computer
+    -   Make a local change, commit, and push
+    -   Confirm the local change propagated to the GitHub remote
+    -   Clean up <br><br>
+-   **Connect Rstudio to Git and GitHub**
+
+# The end of the session 2!
+
+-   **Meetup for the Chapters**
+    -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+    -   [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -   [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+
+-   **We need YOU as a presenter!**
+
+```{r, eval = FALSE}
+pagedown::chrome_print("session_02_ch-2_installation_ch-3_connect-git-github-Rstudio.html")
+
+```
