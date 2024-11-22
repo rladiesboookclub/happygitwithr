@@ -1,5 +1,5 @@
 ---
-title: "Happy Git and Hithub for the useR<BR>Session 03 - Early Github Wins"
+title: "Happy Git and Github for the useR<BR>Session 03 - Early Github Wins"
 subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
 author: "Book by Jenny, presentation by Martine"
 format: 
@@ -109,15 +109,22 @@ usethis::create_from_github(
 
 ![](pull.png){.fragment}
 
-    -  Probably nothing will happen, i.e. you’ll get the message “Already up-to-date.” This is just to establish a habit.
+-  Probably nothing will happen, i.e. you’ll get the message “Already up-to-date.” This is just to establish a habit.
 
--   Click the green “Push” button to send your local changes to GitHub:
+-  Click the green “Push” button to send your local changes to GitHub:
 ![](push.png){.fragment}
-. . .  
 
-But then this happened:  
+## New project? Easiest way: GitHub first - push {.smaller}  
 
-![](fatalerror.png)
+-  But then this happened `r fa("face-frown", fill = "purple")` ![](fatalerror.png){.fragment}
+-  I found this: <https://forum.posit.co/t/issues-with-pushing-from-rstudi-to-git/126509>
+-  I realised indeed my PAT had changed
+-  The webpage <https://carpentries.github.io/sandpaper-docs/github-pat.html> advised `usethis::git_sitrep()` and after running that I discovered:
+    -  Yes, my PAT could be the problem
+    -  An advise to read Chp 25 of the book we are reading  <https://happygitwithr.com/common-remote-setups.html>  `r fa("face-laugh-beam", fill = "purple")`
+-  I ran `gitcreds::gitcreds_set()` and entered my PAT when asked
+-  Then I checked again `usethis::git_sitrep()` and saw it was oke
+-  Tried pushing again (after a pull  `r fa("face-smile", fill = "purple")` ) and it worked  `r fa("face-smile-beam", fill = "purple")`  `r fa("face-smile-beam", fill = "purple")`  `r fa("face-smile-beam", fill = "purple")`
 
 
 
