@@ -94,16 +94,30 @@ usethis::create_from_github(
 ::: {.column  width='40%'}
 
 -  check boxes of things you like to commit
--  add a commit message
--  hit commit button at bottom
+-  add `Commit` message
+-  hit `Commit` button at bottom
 :::
 
 ::::
 
 
+## New project? Easiest way: GitHub first - push {.smaller}
 
+-  New work in your local Git repository, not online yet
+-  **Pull** from GitHub 
+    -  Why? Establish this habit for the future! If you make changes to the repo in the browser or from another machine or (one day) a collaborator has pushed, you will be happier if you pull those changes in before you attempt to push.
 
+![](pull.png){.fragment}
 
+    -  Probably nothing will happen, i.e. you’ll get the message “Already up-to-date.” This is just to establish a habit.
+
+-   Click the green “Push” button to send your local changes to GitHub:
+![](push.png){.fragment}
+. . .  
+
+But then this happened:  
+
+![](fatalerror.png)
 
 
 
