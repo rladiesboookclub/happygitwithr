@@ -1,0 +1,105 @@
+---
+title: "Happy Git and Hithub for the useR<BR>Session 03 - Early Github Wins"
+subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+author: "Book by Jenny, presentation by Martine"
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    pdf-max-pages-per-slide: 1
+    footer: "[Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam]"
+    incremental: true
+---
+
+```{r}
+library(fontawesome) # 0.4.0
+
+```
+
+
+## Some house rules
+
+-  R-Ladies is dedicated to providing a harassment-free experience for everyone
+-  We do not tolerate harassment of participants in any form
+-  See [the code of conduct](https://rladies.org/coc/)
+
+
+## Program for today
+
+-  Get started with GitHub
+    -  15 New project, GitHub first
+    -  16 Existing project, GitHub first
+    -  17 Existing project, GitHub last
+    -  18 Test drive R Markdown
+    -  19 Render an R script
+-  Git fundamentals?
+
+## Get started with GitHub
+
+-  New project? Easiest way: GitHub first
+-  Existing project?
+    -  GitHub first: pragmatic
+    -  GitHub last: more proper way to connect, especially if already a Git history
+    
+## New project? Easiest way: GitHub first - Why?
+
+-  Also sets up local Git repo for immediate pulling and pushing
+-  Under the hood, we are doing git clone
+-  The remote GitHub repo is configured as the origin remote for your local repo and your local main branch is now tracking the main on GitHub
+
+## New project? Easiest way: GitHub first - Steps 1/n
+
+-  Make a repo on GitHub
+![](newrepo.png){.fragment}  
+-  Click the big green “<> Code” button, and copy a clone URL to your clipboard
+![](copyurl.png){.fragment}
+
+## New project? Easiest way: GitHub first - Steps 2/n
+
+-  Make a new RStudio Project preferably via (run in any RConsole / R session):  
+
+. . .
+
+```{r}
+#| eval: false
+#| echo: true
+usethis::create_from_github(
+  repo_spec = "https://github.com/YOU/YOUR_REPO.git",
+  destdir = "~/path/to/where/you/want/the/local/repo/"
+)
+```
+
+. . . 
+
+-  This creates a new local directory in `destdir`, which is:
+   -  a directory or folder on your computer
+   -  a Git repository, linked to a remote GitHub repository
+   -  an RStudio Project
+-  This opens a new RStudio instance in the new Project
+-  In the absence of other constraints, Jenny suggest that all of your R projects have exactly this set-up.
+
+
+## New project? Easiest way: GitHub first - changes, save & commit
+
+
+
+
+
+## The end of session 3!
+
+-   **Meetup for the Chapters**
+    -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+    -   [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -   [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+
+-   **We need YOU as a presenter!**
+    -  choose your own way of presenting: quarto-revealjs, ppt, ...
+
+
+
+```{r, eval = FALSE}
+pagedown::chrome_print("session_03_earlygithubwins.html")
+
+```
+
+
