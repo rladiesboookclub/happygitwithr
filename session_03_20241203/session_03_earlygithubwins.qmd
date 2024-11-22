@@ -79,7 +79,31 @@ usethis::create_from_github(
 -  In the absence of other constraints, Jenny suggest that all of your R projects have exactly this set-up.
 
 
-## New project? Easiest way: GitHub first - changes, save & commit
+## New project? Easiest way: GitHub first - work, save & commit {.smaller}
+
+-  Work on project, then click on `Git` tab:
+![](git.png){.fragment}
+-  Open `commit` screen by click on `Commit` button in git menu:
+
+:::: {.columns}
+
+::: {.column .fragment width='60%'}
+![](commit.png)
+:::
+
+::: {.column  width='40%'}
+
+-  check boxes of things you like to commit
+-  add a commit message
+-  hit commit button at bottom
+:::
+
+::::
+
+
+
+
+
 
 
 
