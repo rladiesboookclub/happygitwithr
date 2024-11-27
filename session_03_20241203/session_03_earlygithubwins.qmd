@@ -36,15 +36,19 @@ library(fontawesome) # 0.4.0
 
 ## Get started with GitHub
 
--  New project? Easiest way: GitHub first
+-  New project?
+    -  Easiest way: GitHub first
 -  Existing project?
     -  GitHub first: pragmatic
     -  GitHub last: more proper way to connect, especially if already a Git history
     
+    
+# Chp 15 - New project, Github first {.inverse}   
+    
 ## New project? Easiest way: GitHub first - Why?
 
 -  Also sets up local Git repo for immediate pulling and pushing
--  Under the hood, we are doing git clone
+-  Under the hood, we are doing `git clone`
 -  The remote GitHub repo is configured as the origin remote for your local repo and your local main branch is now tracking the main on GitHub
 
 ## New project? Easiest way: GitHub first - Steps 1/n
@@ -56,7 +60,7 @@ library(fontawesome) # 0.4.0
 
 ## New project? Easiest way: GitHub first - Steps 2/n
 
--  Make a new RStudio Project preferably via (run in any RConsole / R session):  
+-  Make a new RStudio Project preferably via (run in *any*     RConsole / R session):  
 
 . . .
 
@@ -127,8 +131,133 @@ usethis::create_from_github(
 -  Tried pushing again (after a pull  `r fa("face-smile", fill = "purple")` ) and it worked  `r fa("face-smile-beam", fill = "purple")`  `r fa("face-smile-beam", fill = "purple")`  `r fa("face-smile-beam", fill = "purple")`
 
 
+## {background-color="#5C8DA9" background-image="zen.gif" background-size="contain"}
+
+# Chp 16 - Existing project, Github first {.inverse}
+
+## Existing project, GitHub first - Make repo
+
+-  slightly goofy way, in order to avoid using Git at the command line
+-  not for always, but nice for starters
+-  more options in the book, this seems to be the preferred
+
+1.  Have all your files for your R project in the same folder
+2.  Make a new repo on github
+3.  Now click the green “<> Code” button and copy the URL
+4.  In *any* R-session, run:
+
+. . .  
+```{r}
+#| eval: false
+#| echo: true
+usethis::create_from_github(
+  repo_spec = "https://github.com/YOU/YOUR_REPO.git",
+  destdir = "~/path/to/the/folder/in/step/1/"
+)
+```
+
+. . . 
+
+*So far not so different from "New project, github first"*
 
 
+## Existing project, Github first - demo 1/2 {.smaller}
+
+1.  Made an R-project in a folder: ![](project.png){width="20%"}
+2.  Made a test repo on github 
+3.  and copied the url 
+4.  Ran the code
+
+. . .  
+
+```{r}
+#| eval: false
+#| echo: true
+usethis::create_from_github(
+  repo_spec = "https://github.com/YOU/YOUR_REPO.git",
+  destdir = "~/path/to/the/folder/in/step/1/")
+```
+
+. . .  
+ 
+ Ran into:
+ 
+ ![](projectinproject.png){.fragment}
+
+. . . 
+
+Conclusion: JUST have the FILES in a folder, not already a project
+
+## Existing project, Github first - demo 2/2
+
+::: columns
+::: {.column width="40%"}
+-  So I removed project stuff:  
+![](justfiles.png){.fragment}
+-  reran the code
+-  the result:  
+![](project_result.png){.fragment}
+:::
+::: {.column width="60%"}
+-  `Test` is the copied Rproj:  
+![](projectinfolder.png){.fragment}
+-  move files from `Testproject` to `Test`:  
+![](moved.png){.fragment}
+
+:::
+:::
+
+## Existing project, Github first - content in
+
+
+::: columns
+::: {.column width="60%"}
+-  So after the local project is there, relocate the files to that folder
+-  Open the project in RStudio
+-  All the files should be here if your move/copy was successful
+-  Are they showing up in the Git pane with questions marks? They should be appearing as new untracked files.
+:::
+::: {.column width="40%" .fragment}
+
+![](gitpanefiles.png)
+:::
+:::
+
+## Existing project, Github first - stage commit {.smaller}
+
+
+-  Click `Git` tab, check “Staged” box for all files you want to commit.
+-  Default: stage it.
+-  When to reconsider: *this will all go to GitHub. Consider if that is appropriate for each file. You can absolutely keep a file locally, without committing it to the Git repo and sending to GitHub. Just let it sit there in your Git pane, without being staged. No harm will be done.*    
+*If this is a long-term situation, list the file in .gitignore.*
+-  If you’re not already in the Git pop-up, click `Commit` to open window
+-  Type a message in `Commit message`, such as “Init project XYZ”, and click `Commit` button below 
+![](commit_init.png){.fragment width="80%"}
+
+##  Existing project, Github first - what to commit? {.smaller}
+
+-  .Rhistory probably not
+-  .RProj?
+    -  Posit says **yes** at  
+    <https://forum.posit.co/t/should-rproj-files-be-added-to-gitignore/1269/2>
+-  .gitignore?
+    -  People say **yes** at  
+    <https://stackoverflow.com/questions/5765645/should-you-commit-gitignore-into-the-git-repos> and  
+    <https://stackoverflow.com/questions/767147/how-can-i-stop-gitignore-from-appearing-in-the-list-of-untracked-files>
+    
+## Existing project, Github first - push and check
+
+- We are now a branche ahead ![](brancheahead.png){.fragment}
+- Push and check on github ![](checkgithub.png){.fragment width="70%"}
+
+
+## {background-color="#5C8DA9" background-image="zen.gif" background-size="contain"}
+
+# Chp 17 - Existing project, Github last {.inverse}
+
+# Chp 18 - test drive R Markdown {.inverse}
+
+# Chp 19 - Render an R script {.inverse}
 
 ## The end of session 3!
 
