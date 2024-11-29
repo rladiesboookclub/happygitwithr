@@ -13,6 +13,9 @@ format:
 
 ```{r}
 library(fontawesome) # 0.4.0
+library(tidyverse)
+library(ggflowchart)
+
 
 ```
 
@@ -32,7 +35,6 @@ library(fontawesome) # 0.4.0
     -  17 Existing project, GitHub last
     -  18 Test drive R Markdown
     -  19 Render an R script
--  Git fundamentals?
 
 ## Get started with GitHub
 
@@ -255,11 +257,189 @@ Conclusion: JUST have the FILES in a folder, not already a project
 
 # Chp 17 - Existing project, Github last {.inverse}
 
-# Chp 18 - test drive R Markdown {.inverse}
+## Existing project, Github last - Why? & How
+
+-  connecting existing local R project to GitHub,  
+when for some reason cannott or don’t want “GitHub first” workflow 
+    -  example: existing project already git repo, with a history you care about
+
+. . . 
+
+How?
+
+. . . 
+
+
+```{r}
+#| fig-width: 8
+#| fig-height: 3
+
+dBlocks <- tribble(~label, ~xmin, ~xmax, ~ymin, ~ymax,
+                   "files", 0, 1, 1, 2, 
+                   "other files", 0, 1, -1, -2,
+                   "all project files\nin same folder", 1.5, 2.5, -0.5, 0.5,
+                   ".RProj", 3, 4, -0.5, 0.5)
+dFlows <- tribble(~label, ~x, ~xend, ~y, ~yend, ~linetype,
+                  "", 1, 1.5, 1.5, 0, "solid",
+                  "", 1, 1.5, -1.5, 0,"solid",
+                  "optional", 2.5, 3, 0, 0, "dashed",
+                  )
+
+ggplot() +
+  geom_rect(data= dBlocks,
+            aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+            fill = NA,
+            color = "black") +
+  geom_text(data = dBlocks,
+            aes(x = 0.5*xmin+0.5*xmax,
+                y = 0.5*ymin + 0.5*ymax,
+                label = label)) +
+  geom_segment(data = dFlows,
+               aes(x = x, xend = xend, y = y, yend=yend, linetype = I(linetype)),
+               arrow = arrow(type = "closed", length = unit(0.1, "inches"))) +
+  geom_text(data = dFlows,
+            aes(x = 0.5*x+0.5*xend,
+                y = 0.5*y + 0.5*yend + 0.1,
+                label = label)) +
+  theme_void(base_size = 25)
+  
+
+```
+
+## EPGL - Prepare the local project (optional) {.smaller}
+
+-  Make the .RProj; 
+    -  Within RStudio: `File > New Project > Existing Directory` **OR**
+    -  R console: `usethis::create_project("path/to/your/project")`
+-  Open the  project
+-  Check or make it a git project:
+    -  `Git` tab available? Then it is oke
+    -  No `git` tab? , choose:
+        1.  R Console: `usethis::use_git()`
+        2. RStudio: go to `Tools > Project Options … > Git/SVN`.  
+        Under “Version control system”, select “Git”. Confirm New Git Repository? Yes!
+        3. In the shell, with working directory set to the project’s directory, do `git init`.
+    -  Relaunch project automatically with options 1 and 2. Do it yourself for option 3
+
+
+## EPGL - Stage & Commit {.smaller}
+
+-  If your local project was already a Git repo and was up-to-date, move on.
+-  Otherwise:  
+    -  Click the “Git” tab in upper right pane
+     - Check “Staged” box for all files you want to commit.
+         -  Default: stage everything
+         -  *When to do otherwise: this will all go to GitHub. So consider if that is appropriate for each file. You can absolutely keep a file locally, without committing it to the Git repo and sending to GitHub. Just let it sit there in your Git pane, without being staged. No harm will be done. If this is a long-term situation, list the file in .gitignore.*
+    -  If you’re not already in the Git pop-up, click “Commit”
+    -  Type a message in “Commit message” & click “Commit” button
+
+## EPGL - Create and connect a GitHub repo {.smaller}
+
+-  With `usethis`: In your project, in the R Console; `usethis::use_github()`
+    -  Creates a new repo on GitHub & configures that as origin remote for local repo
+    -  Sets up your local default branch (e.g. main) to track same on origin and does an initial push
+    -  Opens the new repo in your browser
+-  Without `usethis`:
+    -  Create a new repo on GitHub, **DO NOT initialize this repository with anything**
+    -  Copy a clone URL
+    -  Connect local repo to GitHub repo, either with RStudio: ![](purplesquares.png){.fragment width="40%"}
+        - or command line:
+            -  `git remote add origin https://github.com/...../....git`
+            -  `git push --set-upstream origin main`
+  
+       
+
+
+
+## {background-color="#5C8DA9" background-image="zen.gif" background-size="contain"}
+  
+
+# Chp 18 - Test drive R Markdown {.inverse}
+
+## Make an Rmd file {.smaller}
+
+- Launch RStudio in project that is a Git repo connected to GitHub repo
+    -  My example project was not on github, so I added it: ![](EPGL.png)
+-  Add new file (Rmd) ![](Chp18_01.png){width="30%"}
+-  After saving, you see ![](Chp18_02.png){width="30%"}
+-  Commit, Render to html, commit again and push
+-  Check files on github:
+    -  Rmd is readable, but no evaluated code
+    -  html, ah well
+
+---
+
+:::: {.columns}
+
+::: {.column}
+![](Chp18_foormd.png)
+:::
+
+::: {.column .fragment}
+![](Chp18_foohtml.png)
+:::
+
+::::
+
+## Output format
+
+
+:::: {.columns}
+
+::: {.column}
+
+-  HTML not really so inviting
+-  Note the intermediate markdown, foo.md IS interesting:
+-  ![](Chp18_keepmd.png)
+:::
+
+::: {.column .fragment}
+![](Chp18_md.png)
+:::
+
+::::
+
+
+## Advice
+
+*"Creating, committing, and pushing markdown (i.e., .md files) is a very functional, lighweight publishing strategy. Use output: github_document or, if output is html_document, add keep_md: true. In both cases, it is critical to also commit and push everything inside foo_files, i.e. any figures that have been created. Now people can visit and consume your work on GitHub, like any other webpage."*
+
+. . .  
+
+*"... In this incremental manner, develop your report. Add code to this chunk. Refine it. Add new chunks. Go wild! But keep running the code “manually” to make sure it actually works. If the code doesn’t work with you babysitting it, I can guarantee you it will fail, in a more spectacular and cryptic way, when run at arms-length via “Knit HTML” or rmarkdown::render().Clean out your workspace and restart R and re-run everything periodically, if things get weird."*
+
+
 
 # Chp 19 - Render an R script {.inverse}
 
-## The end of session 3!
+## Some remarks
+
+-  In R markdown, prose is top-level and code is tucked into chunks
+-  In R scripts, code is top-level and prose is tucked into comments
+-  R scripts can be rendered
+
+:::: {.columns}
+
+::: {.column}
+![](Chp19_script.png){.fragment}
+
+-  In de console `rmarkdown::render("renderrscript.R")`
+:::
+
+::: {.column .fragment}
+![](Chp19_md.png)
+:::
+
+
+::::
+
+
+
+
+
+
+
+# The end of session 3! {.inverse}
 
 -   **Meetup for the Chapters**
     -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
@@ -272,7 +452,8 @@ Conclusion: JUST have the FILES in a folder, not already a project
 
 
 ```{r, eval = FALSE}
-pagedown::chrome_print("session_03_earlygithubwins.html")
+# it would not run with wait = 5 or the default 1
+pagedown::chrome_print("session_03_earlygithubwins.html",wait = 10)
 
 ```
 
