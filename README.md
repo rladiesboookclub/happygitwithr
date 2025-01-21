@@ -11,7 +11,7 @@ Schedule:
 | 03      | 2024_12_03  | Early Git Wins | Martine Jansen |[slides_session_03](https://github.com/rladiesboookclub/happygitwithr/blob/main/session_03_20241203/session_03_earlygithubwins.pdf)                     |
 | 04      | 2025-01-21  | Git fundamentals | Michelle Borley Verstraaten             |                     |
 | 05      | 2025-02-04  | Remote setups + Daily Workflows 1 | Kylie Ainslie          |                     |
-| 06      | 2025-02-18  | Daily Workflows 2 | Jose Bernardo             |                     |
+| 06      | 2025-02-18  | Daily Workflows 2 | Josefina Bernardo             |                     |
 | 07      | 2025-03-01  | Activity Prompts |  ???            |                     |
 
 
