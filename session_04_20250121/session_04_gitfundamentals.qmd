@@ -1,0 +1,206 @@
+---
+title: "Happy Git and Github for the useR<BR>Session 04 - Git fundamentals"
+subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+author: "Book by Jenny, presentation by Michelle"
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    pdf-max-pages-per-slide: 1
+    footer: "[Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam]"
+    incremental: true
+---
+
+```{r}
+library(fontawesome) # 0.4.0
+library(tidyverse)
+library(ggflowchart)
+
+```
+
+## Program for today
+
+-  Some Git basics
+    -  20 Repo, commit, diff, tag
+    -  21 Git commands
+    -  22 Branches
+    -  23 Remotes
+    -  24 Refs
+
+. . .
+
+How Git works, concepts, applying it to data science
+    
+# Chapter 20: Repo, commit, diff, tag {.inverse}   
+    
+## Terms
+
+-  **Repo** (repository): set of files 
+-  **Commit**: snapshot of current version of files in a project/repo
+-  **Diff**: differences between one commit and another commit. _Each Git version of a file is an accumulation of diffs_
+-  **SHA** (Secure Hash Algorithm): a string of 40 letters and numbers assigned by Git to a commit to uniquely identify it
+-  **Tag**: a name you can assign to a version, e.g. "v.1.0.3" or "draft-01"
+
+![](commit-diff-sha-tag.png)
+
+## Advice
+
+For each project:
+
+- Assign it to one local directory
+- Make it an RStudio project
+![](geocomp_project.png){.fragment}
+- Make it a Git repository (see previous book section)
+
+## Workflow
+
+- Work on your files locally
+- Periodically make a commit
+  - When a "significant" stage is reached
+  - Include a short commit message motivating the change
+- Periodically push commits to GitHub - makes current version of repo accessible to others
+  - First pull so that you have the updated remote version
+  
+## Workflow
+
+![](github_1.png){.fragment width="60%"}
+![](github_2.png){.fragment width="60%"}
+ 
+# Chapter 21: Git commands {.inverse} 
+
+## Can you remember/guess what these commands do?
+
+- `git clone https://github.com/jennybc/happy-git-with-r.git`
+- `git remote --verbose`
+- `git add foo.txt` [: add foo.txt to the index (staging area)]{.fragment}
+- `git commit --message "A commit message"`
+- `git status`
+
+![](git_status.png){.fragment height="70%"}
+ 
+## Can you remember/guess what these commands do?
+
+- `git log`
+![](git_log.png){.fragment}
+- `git log --oneline`
+![](git_log_oneline.png){.fragment}
+
+## Can you remember/guess what these commands do?
+
+- `git diff`
+
+![](git_diff.png){.fragment height="60%"}
+
+- The rest of the list is covered in the next few chapters
+
+# Chapter 22: Branches {.inverse}
+
+## Branching and merging
+- For parallel work or experimenting with new features without interfering with the main project
+- `git branch issue-5`
+- `git checkout issue-5`
+- `git checkout -b issue-5`
+- Switching branch when you have incomplete work:
+  - `git commit --all -m "WIP"`
+  - `git checkout main`
+  - `git checkout issue-5`
+  - `git reset HEAD^`
+  
+## Merging and handling conflicts 
+- `git checkout main`
+- `git merge issue-5`
+
+  ![](git_merge_issue.png){.fragment width="70%"}
+  ![](git_status_conflict.png){.fragment width="70%"}
+
+## Merging and handling conflicts
+  ![](git_conflict.png){.fragment width="75%"}
+
+::: columns
+::: {.column width="60%" .fragment}
+  ![](git_conflict_fixed.png)
+:::
+::: {.column width="40%"}
+- `git add index.html`
+- `git commit`
+:::
+:::
+
+- If something goes wrong: `git merge --abort`
+- More info: <https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging>
+
+# Chapter 23: Remotes {.inverse}
+
+## Remotes {.smaller}
+- Remote repositories are hosted on a network (not your local version) [![](git_remote.png)]{.fragment width="70%"}
+- `git clone`
+- `git remote add happygit https://github.com/jennybc/happy-git-with-r.git`
+- Adding a second remote is useful when you have forked and cloned a repo and want to pull changes from the original repository (not your forked remote) - this second remote is usually nicknamed `upstream`:
+- `git remote add upstream https://github.com/TRUE_OWNER/REPO.git`
+
+## Fetching and pushing
+- `git fetch happygit`: downloads the remote commits to your local repo without changing the local branch
+- `git fetch` + `git merge` ≈ `git pull`
+- Git pull vs git fetch: <https://www.youtube.com/watch?v=T13gDBXarj0>
+- `# push my local changes to the origin remote's main branch`
+`git push origin main`
+
+## Upstream tracking branches
+  ![](git_push_fatal_short.png){.fragment width="60%"}
+
+- `git config --global push.default current`
+
+![](git_branch.png){.fragment width="45%" .absolute top=280 left=0}
+![](git_branch_feature.png){.fragment width="45%" .absolute top=280 left=525}
+
+# Chapter 24: Refs {.inverse}
+
+## What are refs?
+- References to specific commits (like pointers in programming). Examples:
+  - a branch name
+  - HEAD (a _symbolic ref_) ![](refs-branches-and-HEAD-1.jpeg){width="40%" .absolute top=130 right=0}
+  - a tag (e.g., v1.4.2)
+
+::: columns
+::: {.column width="60%" .fragment}
+![](git_rev-parse.png)
+:::
+::: {.column width="40%" .absolute top=430 left=635}
+- Use refs in commands like `git diff`, `git reset` and `git checkout`
+:::
+:::
+
+## Relative refs
+- `HEAD~1` or `HEAD^`: the commit just before `HEAD`
+- `HEAD~3` or `HEAD^^^`: three commits before `HEAD`
+- See more: <https://git-scm.com/docs/gitrevisions>
+
+. . .
+
+Copying a specific SHA is easy in visual Git tools like GitHub and GitKraken
+![](git_sha.png){.fragment}
+
+# Pro Git
+::: columns
+::: {.column width="40%"}
+![](pro_git.png)
+:::
+::: {.column width="60%" .absolute bottom=15 right=0}
+<https://git-scm.com/book/en/v2>
+:::
+:::
+
+# The end of the session 4!
+::: {.nonincremental}
+-   **Meetup for the Chapters**
+    -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+    -   [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -   [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+
+-   **We need YOU as a presenter!**
+:::
+
+```{r, eval = FALSE}
+pagedown::chrome_print("session_04_gitfundamentals.html")
+
+```
