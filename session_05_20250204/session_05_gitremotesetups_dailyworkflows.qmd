@@ -1,0 +1,294 @@
+---
+title: "Happy Git and Github for the useR<BR>Session 05 - Git Remote Setups + Daily Workflows"
+subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+author: "Kylie Ainslie"
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    pdf-max-pages-per-slide: 1
+    footer: "[R-Ladies Book Club]"
+    incremental: true
+---
+
+```{r}
+library(fontawesome) # 0.4.0
+library(tidyverse)
+library(ggflowchart)
+
+```
+
+## Program for today
+
+-  Remote Setups
+    - 25 Common remote setups
+    - 26 Equivocal remote setups
+    
+- Daily Workflows
+    - 27 The Repeated Amend
+    - 28 Dealing with push rejection
+    - 29 Pull, but you have local work
+    - 30 Time travel: See the past
+    - 31 Fork and clone
+    - 32 Get upstream changes for a fork
+    - 33 Explore and extend a pull request
+    - 34 Make a GitHub repo browsable
+
+. . .
+
+How Git works, concepts, applying it to data science
+    
+# Chapter 25: Common remote setups {.inverse}   
+    
+## Recap
+
+- A *remote* is repository hosted elsewhere than your local machine (e.g., on GitHub)
+  - On GitHub a remote URL looks like `https://github.com/OWNER/REPO.git` or `git@github.com:OWNER/REPO.git`
+
+:::{.incremental}
+![](https_url.png)
+
+![](ssh_url.png)
+:::
+  - The remote is named `origin` or `upstream`.
+- A *fork* is a copy of a repository on a remote server (e.g., GitHub)
+- A *clone* is a copy of a repository on your local machine
+
+## No GitHub
+
+- We'll start with a local Git repo (blue barrel) that is not yet connected to GitHub
+
+![](no_github.png){.fragment}
+- A local Git repo can be created in several ways:
+  - Command line Git: `git init`
+  - With `usethis` (in an existing project): `usethis::use_git()`
+  - RStudio:
+      - Existing Project: *Tools > Version Control > Project Setup*, select Git as the version control system
+      - New Project: Make sure “Create a Git repository” is selected
+
+## Yours
+
+- Next, associate a local repo with a copy on GitHub, owned by you
+  - A remote named `origin` is configured and you have permission to push to (and pull from) origin
+  - `origin` on GitHub is a **source** repo (not a fork or copy of any other repo). 
+  - `origin` is also your **primary** repo (it is the primary remote you interact with on GitHub for this project).
+
+![](ours1.png)
+## Yours
+How can this setup be achieved?
+
+- If the local repo exists first:
+  - Detailed instructions are in [Existing project, GitHub last](https://happygitwithr.com/existing-github-last#existing-github-last).
+  - With `usethis`: `usethis::use_github()`.
+  - Command line Git or RStudio: You can’t complete this task fully (see [Chapter 25.2](https://happygitwithr.com/common-remote-setups) for more details)
+  
+- If the remote repo exists first:
+  - Detailed instructions are in [New RStudio Project via git clone]().
+  - With `usethis`: `usethis::create_from_github("OWNER/REPO", fork = FALSE)`.
+  - Command line: `git clone <URL>`, with the source repo’s HTTPS or SSH URL
+  - RStudio: Capture the source repo’s HTTPS or SSH URL and do *File > New Project > Version Control > Git*.
+
+## Ours
+
+- Another possible configuration is a repo that is owned by someone else who gives you access
+- In this case:
+    - `origin` is a **source**. 
+    - `origin` is also your **primary** repo in this setup.
+
+![](ours2.png){.fragment}
+- How to achieve?
+  - same as above, but specify `usethis::use_github(organisation = "ORGNAME")`.
+  
+## Theirs
+This is a setup that many people get themselves into, when it’s not actually what they need.
+![](theirs.png)
+ - You cannot push to `origin`, meaning `origin` is read-only for you.
+- What if you do want to make a pull request? 
+  - This means you should have done fork-and-clone instead of clone.
+  
+ - How does this setup happen?
+  - Cloning the source repo, either via `git clone <URL>` (command line) or through a Git client, e.g. RStudio’s *File > New Project > Version Control > Git* workflow.
+  - Calling `usethis::create_from_github("OWNER/REPO", fork = FALSE)`.
+  
+## Fork (of theirs)
+Ideal setup if you want to make a pull request and follow the development of a source repo owned by someone else.
+
+![](fork_of_theirs.png)
+- Your local repo can pull changes from the **source** repo (`upstream`)
+  - note: in this setup, you cannot push to `upstream`. 
+- You have a fork of the source repo (`origin`) 
+  - `origin` is your **primary** repo. 
+  - You can push to and pull from `origin`.
+  - You can make a pull request back to the source repo via your fork.
+
+## Fork (of theirs)
+How to achieve?
+
+  - Detailed instructions are given in [Fork and clone](https://happygitwithr.com/fork-and-clone#fork-and-clone).
+  - With usethis: `usethis::create_from_github("OWNER/REPO", fork = TRUE)`.
+  - Command line Git or RStudio: You can’t complete this task fully
+  
+## Fork (of ours)
+
+- This is a less common setup.
+  - you have permission to push to the source repo, but you create a personal fork anyway
+  - why?
+    - it offers maximum development flexibility for advanced users
+
+![](fork_of_ours.png)
+
+- How to achieve?
+  - Same as the regular fork setup above.
+  - With `usethis`: `usethis::create_from_github("OWNER/REPO", fork = TRUE)`.
+  
+## Fork (salvageable)
+- This is a sub-optimal setup, but can be salvaged
+
+![](fork_salvageable.png)
+- How does this happen?
+  - Cloning your own fork, either via `git clone` in the shell or through a Git client, such as RStudio. 
+  - And then stopping here.
+  
+- You can convert this setup into the fork setup above:
+  - Detailed instructions are in [Finish the fork and clone setup](https://happygitwithr.com/fork-and-clone#fork-and-clone-finish).
+  - Add the source repo as the `upstream` remote.
+  - Set `upstream/main` as the upstream tracking branch for local main.
+
+# Chapter 21: Git commands {.inverse} 
+
+## Can you remember/guess what these commands do?
+
+- `git clone https://github.com/jennybc/happy-git-with-r.git`
+- `git remote --verbose`
+- `git add foo.txt` [: add foo.txt to the index (staging area)]{.fragment}
+- `git commit --message "A commit message"`
+- `git status`
+
+![](git_status.png){.fragment height="70%"}
+ 
+## Can you remember/guess what these commands do?
+
+- `git log`
+![](git_log.png){.fragment}
+- `git log --oneline`
+![](git_log_oneline.png){.fragment}
+
+## Can you remember/guess what these commands do?
+
+- `git diff`
+
+![](git_diff.png){.fragment height="60%"}
+
+- The rest of the list is covered in the next few chapters
+
+# Chapter 22: Branches {.inverse}
+
+## Branching and merging
+- For parallel work or experimenting with new features without interfering with the main project
+- `git branch issue-5`
+- `git checkout issue-5`
+- `git checkout -b issue-5`
+- Switching branch when you have incomplete work:
+  - `git commit --all -m "WIP"`
+  - `git checkout main`
+  - `git checkout issue-5`
+  - `git reset HEAD^`
+  
+## Merging and handling conflicts 
+- `git checkout main`
+- `git merge issue-5`
+
+  ![](git_merge_issue.png){.fragment width="70%"}
+  ![](git_status_conflict.png){.fragment width="70%"}
+
+## Merging and handling conflicts
+  ![](git_conflict.png){.fragment width="75%"}
+
+::: columns
+::: {.column width="60%" .fragment}
+  ![](git_conflict_fixed.png)
+:::
+::: {.column width="40%"}
+- `git add index.html`
+- `git commit`
+:::
+:::
+
+- If something goes wrong: `git merge --abort`
+- More info: <https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging>
+
+# Chapter 23: Remotes {.inverse}
+
+## Remotes {.smaller}
+- Remote repositories are hosted on a network (not your local version) [![](git_remote.png)]{.fragment width="70%"}
+- `git clone`
+- `git remote add happygit https://github.com/jennybc/happy-git-with-r.git`
+- Adding a second remote is useful when you have forked and cloned a repo and want to pull changes from the original repository (not your forked remote) - this second remote is usually nicknamed `upstream`:
+- `git remote add upstream https://github.com/TRUE_OWNER/REPO.git`
+
+## Fetching and pushing
+- `git fetch happygit`: downloads the remote commits to your local repo without changing the local branch
+- `git fetch` + `git merge` ≈ `git pull`
+- Git pull vs git fetch: <https://www.youtube.com/watch?v=T13gDBXarj0>
+- `# push my local changes to the origin remote's main branch`
+`git push origin main`
+
+## Upstream tracking branches
+  ![](git_push_fatal_short.png){.fragment width="60%"}
+
+- `git config --global push.default current`
+
+![](git_branch.png){.fragment width="45%" .absolute top=280 left=0}
+![](git_branch_feature.png){.fragment width="45%" .absolute top=280 left=525}
+
+# Chapter 24: Refs {.inverse}
+
+## What are refs?
+- References to specific commits (like pointers in programming). Examples:
+  - a branch name
+  - HEAD (a _symbolic ref_) ![](refs-branches-and-HEAD-1.jpeg){width="40%" .absolute top=130 right=0}
+  - a tag (e.g., v1.4.2)
+
+::: columns
+::: {.column width="60%" .fragment}
+![](git_rev-parse.png)
+:::
+::: {.column width="40%" .absolute top=430 left=635}
+- Use refs in commands like `git diff`, `git reset` and `git checkout`
+:::
+:::
+
+## Relative refs
+- `HEAD~1` or `HEAD^`: the commit just before `HEAD`
+- `HEAD~3` or `HEAD^^^`: three commits before `HEAD`
+- See more: <https://git-scm.com/docs/gitrevisions>
+
+. . .
+
+Copying a specific SHA is easy in visual Git tools like GitHub and GitKraken
+![](git_sha.png){.fragment}
+
+# Pro Git
+::: columns
+::: {.column width="40%"}
+![](pro_git.png)
+:::
+::: {.column width="60%" .absolute bottom=15 right=0}
+<https://git-scm.com/book/en/v2>
+:::
+:::
+
+# The end of the session 4!
+::: {.nonincremental}
+-   **Meetup for the Chapters**
+    -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+    -   [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -   [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+
+-   **We need YOU as a presenter!**
+:::
+
+```{r, eval = FALSE}
+pagedown::chrome_print("session_04_gitfundamentals.html")
+
+```
