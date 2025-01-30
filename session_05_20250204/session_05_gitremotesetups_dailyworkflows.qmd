@@ -218,32 +218,60 @@ How to achieve?
   
 ---
 
-## How to Amend
+## Workflow
 
-1. **Fix Files**: Stage any new or modified files for commit  
-   - `git add <file>`
-2. **Amend the Commit**:  
-   - `git commit --amend`
-   - Updates the last commit with the staged files
-3. **Modify Commit Message** (optional):  
-   - Git editor opens to update commit message
-   - If not modifying, the last message will be used again
+1. Start with your project in a functional state.
+  - Use `git status` to check this.
+  ![](git_status.png)
+
+## Workflow
+
+2. Get to work
+  - imagine our commit history looks like this:
 
 :::{.incremental}
-![](git_commit_amend.png)
+  ![](commit_history.png)
 :::
 
----
+  - make a small change towards a larger objective and commit it as `WIP` (work in progress)
+  - `git commit -m "WIP"`
 
-## Example Use Case
+:::{.incremental}
+  ![](commit_history_WIP.png)
+:::
 
-1. You commit a file, then realize you forgot to include another file.
-2. Run:
-   ```bash
-   git add missing_file.txt
-   git commit --amend
-   ```
-   
+** Don't push!**
+
+## Workflow
+
+2. Get to work
+
+  - Do a bit more work. 
+  - Re-check that your project is still in a functional state. 
+  - Stage and commit again, but this time amend your previous commit. 
+      - `git commit --amend --no-edit`
+  
+:::{.incremental}
+![](commit_history_WIP.png)
+:::
+
+** Don't push!**
+
+## Workflow
+
+2. Get to work
+
+  - Keep going until you've achieved your final objective.
+  - Now ammending the commit, but add a real message
+    - `git commit --amend -m "Implement awesome feature"`
+  - Push the changes: `git push` 
+
+:::{.incremental}
+![](commit_history_final.png)
+:::
+
+** Don't push!**
+
 # The end of the session 4!
 ::: {.nonincremental}
 -   **Meetup for the Chapters**
