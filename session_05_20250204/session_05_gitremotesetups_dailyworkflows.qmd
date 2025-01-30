@@ -172,6 +172,32 @@ How to achieve?
 - Useful when you make a small mistake, like a typo or missing file, in your last commit.
 
 ---
+## Mountain Climbing Analogy
+
+- Think of your project as a mountain you're climbing.
+
+:::{.incremental}
+![](free_climbing.webp)
+:::
+
+- Coding without commits is like free-climbing: you can travel much faster in the short-term, but in the long-term the chances of catastrophic failure are high!
+
+:::{.incremental}
+![](free_fall.webp)
+:::
+
+- Using a commit is like using anchors when climbing.
+- If you make a mistake, you can’t fall past the previous commit
+
+:::{.incremental}
+![](anchor_climbing.webp)
+:::
+
+- If you make a mistake, you can’t fall past the previous commit
+
+:::{.incremental}
+![](anchor_fall.webp)
+:::
 
 ## When to Use Amend
 
@@ -179,8 +205,7 @@ How to achieve?
   - Instead of making a new commit, amend the last one
 - If you need to update the commit message
   - `git commit --amend` allows changing the commit message
-  - Be mindful: Only amend commits that haven’t been pushed yet
-
+- This is very easy in RStudio
 ---
 
 ## Potential Pitfalls
