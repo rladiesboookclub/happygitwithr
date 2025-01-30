@@ -462,7 +462,222 @@ A -- B -- C -- D
 
 # Chapter 28: Dealing with push rejection
 
+## Problem
 
+Our push is rejected!
+
+```
+$ git push
+To https://github.com/YOU/REPO.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/YOU/REPO.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+This means that your local Git history and that on the GitHub remote are not compatible, i.e. they have diverged.
+
+## Solve the mystery
+
+Use `git status` to figure out where the divergence has occurred.
+
+Let's assume this is what we see on GitHub:
+```
+A -- B -- C
+```
+
+This is what we see locally:
+```
+A -- B -- D
+```
+
+## Fix the problem
+
+To reconcile the differences:
+
+1. Pull the commit C `git pull`
+2. Integrate the changes in C into your D-containing history. 
+3. Push again `git push`
+
+## Lessons
+
+1. She who pushes first wins!
+  - It is better for the overall health of a project to commit, push, and integrate more often, not less.
+  
+2. Stay in touch
+  - The sooner you know about C, the better. Pull (or fetch) often.
+
+3. Use branches
+  - Branches afford explicit workflows for integrating different lines of work on your own terms.
+
+# Chapter 29: Pull, but you have local work
+
+## Problem
+
+You want to pull upstream changes but have made local commits or uncommitted changes.
+
+### Example:
+- Remote: `A--B--C`
+- Local: `A--B--D`
+
+**Goal**: Incorporate `C` into your local branch without losing `D` or uncommitted changes.
+
+## Case 1: Local Work is Uncommitted
+
+### Scenario:
+- Remote: `A--B--C`
+- Local: `A--B--(uncommitted changes)`
+
+### Happy Cases:
+- Local changes don’t overlap with remote changes (e.g., new files).
+- Local changes affect different files than those changed upstream.
+
+**Outcome**: `git pull` works and fast-forward merge happens.
+
+```
+                 Remote: A--B--C
+
+Local before 'git pull': A--B--(uncommitted changes)
+ Local after 'git pull': A--B--C--(uncommitted changes)
+```
+
+## Case 1: Local Work is Uncommitted
+
+### Scenario:
+- Remote: `A--B--C`
+- Local: `A--B--(uncommitted changes)`
+
+### `git stash` works, sometimes
+- Your changes affect a file that has also been changed in commit C.
+- `git pull` won't work
+
+Now what?
+
+- `git stash` is a way to temporarily store some changes to get them out of the way.
+```
+git stash save
+git pull
+git stash pop
+```
+
+**Outcome**: `git stash` is successful.
+
+## Case 1: Local Work is Uncommitted
+
+### Scenario:
+- Remote: `A--B--C`
+- Local: `A--B--(uncommitted changes)`
+
+### `git stash` with conflicts
+- If the changes overlap, you'll get a conflict message when using `git stash pop`
+- You must resolve the merge conflict. 
+  1. At each locus of conflict, pick one version or the other (upstream or stashed) or create a hybrid yourself. 
+  2. Remove the all the markers inserted to demarcate the conflicts. 
+  3. Save.
+
+## Case 1: Local Work is Uncommitted
+
+### Scenario:
+- Remote: `A--B--C`
+- Local: `A--B--(uncommitted changes)`
+
+### `git stash` with conflicts
+- Since `git stash pop` did not go smoothly, 
+  - we need to manually reset `git reset`
+  - and delete the stash `git stash drop`
+  
+**Outcome**: We did it!
+
+## Case 2: Local work is committed
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--D`.
+
+### Pull (fetch and merge)
+- The simplest option is to fetch the commits from upstream and merge them
+  - this is what `git pull` does
+- If there are no conflicts, we're done!
+
+# Case 2: Local work is committed
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--D`.
+
+### Pull (fetch and merge)
+- If commit C (on the remote) and commit D (local) have changes to the same parts of one or more files, this will result in a merge conflict.
+
+```
+jenny@2015-mbp ethel $ git pull
+Auto-merging foo.R
+CONFLICT (content): Merge conflict in foo.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+- You must resolve each conflict before continuing.
+
+# Case 2: Local work is committed
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--D`.
+
+### Pull (fetch and merge)
+Mark the affected file `foo.R` as resolved via `git add` and make an explicit `git commit` to finalize this merge.
+
+```
+jenny@2015-mbp ethel $ git add foo.R
+jenny@2015-mbp ethel $ git commit
+[main 20b297b] Merge branch 'main' of github.com:jennybc/ethel
+```
+
+**Outcome**: We've achieved this:
+```
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--D--(merge commit)
+                  \_C_/
+```
+
+# Case 2: Local work is committed
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--D`.
+
+### Pull and rebase
+- `git pull --rebase` creates a nicer history than `git pull` when integrating local and remote commits.
+  - it creates a less cluttered commit history
+  - can lead to more difficult to resolve merge conflicts
+
+**Outcome:** If no conflicts, we get this:
+```
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--C--D
+```
+
+- Jenny's rec for beginners: use `git pull`
+
+## Case 3: Other approaches
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--(uncommitted changes)`.
+
+### Use a temporary branch for local work
+1. Create a new, temporary branch
+2. Commit your uncommitted changes there 
+3. Checkout main and git pull to get changes from upstream 
+4. Recover the work from the commit in the temporary branch. 
+  a.Merge the temporary branch into main.
+  b. Cherry pick the commit from the temporary branch into main.
 
 # The end of the session 5!
 ::: {.nonincremental}
