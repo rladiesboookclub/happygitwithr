@@ -206,6 +206,7 @@ How to achieve?
 - If you need to update the commit message
   - `git commit --amend` allows changing the commit message
 - This is very easy in RStudio
+![](amend_commit.png)
 ---
 
 ## Potential Pitfalls
