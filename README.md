@@ -1,6 +1,8 @@
-# happygitwithr
+# R-Ladies Boook Club: Happy Git with R
 
-Boook club materials for the book https://happygitwithr.com/  by Jenny Bryan (R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam)  
+This repo contains materials (e.g., presentations) pertaining to the R-Ladies Book Club on [Happy Git and GitHub for the useR](https://happygitwithr.com/) by Jenny Bryan. 
+
+THe book club is a joint effort by [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/), [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/) and [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/).
 
 Schedule:  
 
