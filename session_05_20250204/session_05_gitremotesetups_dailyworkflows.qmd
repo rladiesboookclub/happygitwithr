@@ -328,8 +328,7 @@ If you make a mistake, you can’t fall past the previous commit
 ::: {.column width="40%"}
 
 :::{.fragment .fade-up}
-[Image placeholder]
-<!--![](anchor_fall.webp) -->
+![](anchor_fall.webp)
 :::
 
 :::
