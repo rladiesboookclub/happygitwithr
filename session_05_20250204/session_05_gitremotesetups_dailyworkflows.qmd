@@ -355,15 +355,21 @@ If you make a mistake, you can’t fall past the previous commit
 
 ## Workflow - Step 1
 Start with your project in a functional state.
+
 - Use `git status` to check this.
 
+:::{.fragment .fade-up}
 ![](git_status.png)
+:::
 
 ## Workflow - Step 2
 
 Initial status of project.
 
+:::{.fragment .fade-up}
 ![](commit_history.png){width=50%}
+:::
+
 
 
 ## Workflow - Step 2
@@ -374,8 +380,11 @@ Make a small change towards a larger objective and commit it as `WIP` (work in p
 git commit -m "WIP"
 ```
   
+:::{.fragment .fade-up}
 ![](commit_history_WIP.png){width=50%}
-**Don't push!**
+:::
+
+# Don't push! {.inverse}
 
 ## Workflow - Step 2
 
@@ -383,22 +392,29 @@ git commit -m "WIP"
 - Re-check that your project is still in a functional state. 
 - Stage and commit again, with amended commit: `git commit --amend --no-edit`
 
-![](commit_history_WIP.png){width=50%}
-
-**Don't push!**
+# Don't push! {.inverse}
 
 ## Workflow - Step 2
+
 - Keep going until you've achieved your final objective.
 - Now amend the commit, but add a real message
+
+:::{.fragment .fade-up}
 ```
 git commit --amend -m "Implement awesome feature"
 ```
 
-![](commit_history_final.png){width=50%}
-**Push!** 
+:::
+
+:::{.fragment .fade-up}
+![](commit_history_final.png){width=35%}
+:::
+
+# Push! {.inverse}
 
 ## Workflow - Step 3
 What if you make some changes that break your project?
+
 
 ```
 A -- B -- C -- WIP* 
@@ -423,11 +439,15 @@ Let’s imagine you pushed this state to GitHub by mistake:
 ```
 A -- B -- C -- WIP (85bf30a)
 ```
+:::{.fragment}
 and proceeded to `git commit --amend` again locally, leading to this state:
+:::
 
+:::{.fragment}
 ```
 A -- B -- C -- WIP* (6e884e6)
 ```
+:::
 
 ## Workflow - Step 4
 
@@ -435,17 +455,22 @@ You have two choices:
 
 1. You're working with collaborators:
   - Save a copy of any files that exist locally (with changes) to a new file path, temporarily. 
-  - Hard reset your local repo to C (git reset --hard HEAD^) and pull from GitHub. 
+  - Hard reset your local repo to C (`git reset --hard HEAD^`) and pull from GitHub. 
 
+:::{.fragment}
 ```
 A -- B -- C -- WIP (85bf30a)
 ```
+:::
 
   - Bring any files saved temporarily elsewhere back into the repo now; save, stage, commit, and push. 
+  
 
+:::{.fragment}
 ```
 A -- B -- C -- WIP (85bf30a) -- E
 ```
+:::
 
 ## Workflow - Step 4
 
@@ -455,9 +480,11 @@ You have two choices:
   - Make sure your local commit has a real, non-“WIP” message. 
   - Force push your history to GitHub (`git push --force`).
 
+:::{.fragment}
 ```
 A -- B -- C -- D
 ```
+:::
 
 # Chapter 28: Dealing with push rejection
 
@@ -477,29 +504,41 @@ hint: (e.g., 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 ```
 
+:::{.fragment}
 This means that your local Git history and that on the GitHub remote are not compatible, i.e. they have diverged.
+:::
 
 ## Solve the mystery
 
 Use `git status` to figure out where the divergence has occurred.
 
+:::{.fragment}
 Let's assume this is what we see on GitHub:
 ```
 A -- B -- C
 ```
+:::
 
+:::{.fragment}
 This is what we see locally:
 ```
 A -- B -- D
 ```
+:::
 
 ## Fix the problem
 
 To reconcile the differences:
 
-1. Pull the commit C `git pull`
+1. Pull the commit C (`git pull`)
 2. Integrate the changes in C into your D-containing history. 
-3. Push again `git push`
+3. Push again (`git push`)
+
+:::{.fragment}
+```
+A -- B -- C -- D
+```
+:::
 
 ## Lessons
 
@@ -518,11 +557,17 @@ To reconcile the differences:
 
 You want to pull upstream changes but have made local commits or uncommitted changes.
 
+:::{.fragment}
 ### Example:
+:::
+
 - Remote: `A--B--C`
 - Local: `A--B--D`
 
+:::{.fragment}
 **Goal**: Incorporate `C` into your local branch without losing `D` or uncommitted changes.
+
+:::
 
 ## Case 1: Local Work is Uncommitted
 
@@ -530,6 +575,7 @@ You want to pull upstream changes but have made local commits or uncommitted cha
 - Remote: `A--B--C`
 - Local: `A--B--(uncommitted changes)`
 
+:::{.fragment}
 ### Happy Cases:
 - Local changes don’t overlap with remote changes (e.g., new files).
 - Local changes affect different files than those changed upstream.
@@ -543,16 +589,15 @@ Local before 'git pull': A--B--(uncommitted changes)
  Local after 'git pull': A--B--C--(uncommitted changes)
 ```
 
-## Case 1: Local Work is Uncommitted
+:::
 
-### Scenario:
-- Remote: `A--B--C`
-- Local: `A--B--(uncommitted changes)`
+## Case 1: Local Work is Uncommitted
 
 ### `git stash` works, sometimes
 - Your changes affect a file that has also been changed in commit C.
 - `git pull` won't work
 
+:::{.fragment}
 Now what?
 
 - `git stash` is a way to temporarily store some changes to get them out of the way.
@@ -564,11 +609,9 @@ git stash pop
 
 **Outcome**: `git stash` is successful.
 
-## Case 1: Local Work is Uncommitted
+:::
 
-### Scenario:
-- Remote: `A--B--C`
-- Local: `A--B--(uncommitted changes)`
+## Case 1: Local Work is Uncommitted
 
 ### `git stash` with conflicts
 - If the changes overlap, you'll get a conflict message when using `git stash pop`
@@ -579,16 +622,14 @@ git stash pop
 
 ## Case 1: Local Work is Uncommitted
 
-### Scenario:
-- Remote: `A--B--C`
-- Local: `A--B--(uncommitted changes)`
-
 ### `git stash` with conflicts
 - Since `git stash pop` did not go smoothly, 
   - we need to manually reset `git reset`
   - and delete the stash `git stash drop`
-  
+
+:::{.fragment}  
 **Outcome**: We did it!
+:::
 
 ## Case 2: Local work is committed
 
@@ -596,35 +637,35 @@ git stash pop
 - Remote state is `A--B--C`.
 - Local state is `A--B--D`.
 
+:::{.fragment}
 ### Pull (fetch and merge)
+:::
+
 - The simplest option is to fetch the commits from upstream and merge them
   - this is what `git pull` does
 - If there are no conflicts, we're done!
 
-# Case 2: Local work is committed
+## Case 2: Local work is committed
 
-### Scenario:
-- Remote state is `A--B--C`.
-- Local state is `A--B--D`.
-
+:::{.fragment}
 ### Pull (fetch and merge)
+:::
 - If commit C (on the remote) and commit D (local) have changes to the same parts of one or more files, this will result in a merge conflict.
 
+:::{.fragment}
 ```
 jenny@2015-mbp ethel $ git pull
 Auto-merging foo.R
 CONFLICT (content): Merge conflict in foo.R
 Automatic merge failed; fix conflicts and then commit the result.
 ```
+:::
 
 - You must resolve each conflict before continuing.
 
-# Case 2: Local work is committed
+## Case 2: Local work is committed
 
-### Scenario:
-- Remote state is `A--B--C`.
-- Local state is `A--B--D`.
-
+:::{.fragment}
 ### Pull (fetch and merge)
 Mark the affected file `foo.R` as resolved via `git add` and make an explicit `git commit` to finalize this merge.
 
@@ -642,18 +683,16 @@ Local before: A--B--D
  Local after: A--B--D--(merge commit)
                   \_C_/
 ```
+:::
 
-# Case 2: Local work is committed
-
-### Scenario:
-- Remote state is `A--B--C`.
-- Local state is `A--B--D`.
+## Case 2: Local work is committed
 
 ### Pull and rebase
 - `git pull --rebase` creates a nicer history than `git pull` when integrating local and remote commits.
   - it creates a less cluttered commit history
   - can lead to more difficult to resolve merge conflicts
 
+:::{.fragment}
 **Outcome:** If no conflicts, we get this:
 ```
       Remote: A--B--C
@@ -661,6 +700,7 @@ Local before: A--B--D
 Local before: A--B--D
  Local after: A--B--C--D
 ```
+:::
 
 - Jenny's rec for beginners: use `git pull`
 
@@ -670,12 +710,15 @@ Local before: A--B--D
 - Remote state is `A--B--C`.
 - Local state is `A--B--(uncommitted changes)`.
 
+:::{.fragment}
 ### Use a temporary branch for local work
+:::
+
 1. Create a new, temporary branch
 2. Commit your uncommitted changes there 
 3. Checkout main and git pull to get changes from upstream 
 4. Recover the work from the commit in the temporary branch. 
-  a.Merge the temporary branch into main.
+  a. Merge the temporary branch into main.
   b. Cherry pick the commit from the temporary branch into main.
 
 # The end of the session 5!
