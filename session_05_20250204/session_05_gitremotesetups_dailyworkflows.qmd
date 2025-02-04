@@ -1,0 +1,741 @@
+---
+title: "Happy Git and Github for the useR<BR>Session 05 - Git Remote Setups + Daily Workflows"
+subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+author: "Kylie Ainslie"
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    pdf-max-pages-per-slide: 1
+    footer: "[R-Ladies Book Club]"
+    incremental: true
+---
+
+```{r}
+library(fontawesome) # 0.4.0
+library(tidyverse)
+library(ggflowchart)
+
+```
+
+## Program for today
+
+-  Remote Setups
+    - 25 Common remote setups
+    
+- Daily Workflows, Part 1
+    - 27 The Repeated Amend
+    - 28 Dealing with push rejection
+    - 29 Pull, but you have local work
+    
+# Chapter 25: Common remote setups {.inverse}   
+    
+## Recap
+
+- A *remote* is repository hosted elsewhere than your local machine (e.g., on GitHub)
+  - The remote is named `origin` or `upstream`.
+  - On GitHub a remote URL looks like 
+    - `https://github.com/OWNER/REPO.git` or 
+    - `git@github.com:OWNER/REPO.git`
+
+
+## Recap
+
+![](https_url.png)
+
+## Recap
+
+![](ssh_url.png)
+
+## Recap
+
+- A *fork* is a copy of a repository on a remote server (e.g., GitHub)
+- A *clone* is a copy of a repository on your local machine
+
+## No GitHub
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](no_github.png)
+
+::: aside
+A local Git repo (blue barrel) not connected to GitHub
+:::
+
+:::
+
+::: {.column width="60%"}
+- To create a local Git repo:
+  - `git init`
+  - `usethis::use_git()`
+  - In RStudio:
+      - Existing Project: `Tools > Version Control > Project Setup`
+      - New Project: Make sure “Create a Git repository” is selected
+
+:::
+:::
+
+## Yours
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](ours1.png)
+
+::: aside
+Associate a local repo with a copy on GitHub
+:::
+
+:::
+
+::: {.column width="60%"}
+- A remote named `origin` is configured with permission to push/pull.
+- `origin` on GitHub is a **source** repo.
+- `origin` is your **primary** repo.
+
+:::
+:::
+
+
+## Yours - setup
+- If the **local** repo exists first:
+  - For detailed instructions see [Existing project, GitHub last](https://happygitwithr.com/existing-github-last#existing-github-last).
+  - `usethis::use_github()`.
+  - Command line/RStudio: Task can't be completed fully (see [Chapter 25.2](https://happygitwithr.com/common-remote-setups))
+  
+- If the **remote** repo exists first:
+  - For detailed instructions see [New RStudio Project via git clone]().
+  - `usethis::create_from_github("OWNER/REPO", fork = FALSE)`.
+  - Command line: `git clone <URL>`
+  - RStudio: `File > New Project > Version Control > Git`
+
+## Ours
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](ours2.png)
+
+
+::: aside
+You are given access to a repo owned by someone else.
+:::
+
+:::
+
+::: {.column width="60%"}
+- `origin` is a **source**. 
+- `origin` is your **primary** repo.
+- How to achieve?
+  - same as above, but specify `usethis::use_github(organisation = "ORGNAME")`.
+
+:::
+:::
+
+## Theirs
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](theirs.png)
+
+
+::: aside
+`origin` is read-only (can't push)
+:::
+
+:::
+
+::: {.column width="60%"}
+ - How does this setup happen?
+  - Cloning the source repo (via `git clone <URL>` or Git client)
+  - `usethis::create_from_github("OWNER/REPO", fork = FALSE)`.
+  
+- What if you do want to make a pull request? 
+  - Should have done fork-and-clone instead of clone.
+
+:::
+:::
+
+## Fork (of theirs)
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](fork_of_theirs.png)
+
+
+::: aside
+Forked and cloned repo - ideal setup for making a pull request to `upstream`.
+:::
+
+:::
+
+::: {.column width="60%"}
+- You have a fork (`origin`) of the source repo (`upstream`). 
+- Your local repo can pull (not push) changes from `upstream`.
+- `origin` is your **primary** repo (push/pull permission). 
+- You can make a pull request back to the source repo via your fork.
+
+:::
+:::
+
+## Fork (of theirs) - setup
+- Detailed instructions are given in [Fork and clone](https://happygitwithr.com/fork-and-clone#fork-and-clone).
+- `usethis::create_from_github("OWNER/REPO", fork = TRUE)`.
+- Command line Git or RStudio: You can’t complete this task fully
+  
+## Fork (of ours)
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](fork_of_ours.png)
+
+
+::: aside
+Fork a repo that you have permission to push to the source repo - less common setup.
+:::
+
+:::
+
+::: {.column width="60%"}
+- Offers maximum flexibility for advanced users
+- How to achieve?
+  - Same as the regular fork setup above.
+  - `usethis::create_from_github("OWNER/REPO", fork = TRUE)`.
+
+:::
+:::
+
+## Fork (salvageable)
+
+:::{.columns}
+::: {.column width="40%"}
+
+![](fork_salvageable.png)
+
+
+::: aside
+This is a sub-optimal setup, but can be salvaged.
+:::
+
+:::
+
+::: {.column width="60%"}
+- How does this happen?
+  - Cloning your own fork, then stopping there.
+  
+- Convert into the fork setup above:
+  - For detailed instructions see [Finish the fork and clone setup](https://happygitwithr.com/fork-and-clone#fork-and-clone-finish).
+  - Add source repo as the `upstream` remote.
+  - Set `upstream/main` as the upstream tracking branch for local main.
+
+:::
+:::
+  
+# Daily workflows, part 1 {.inverse} 
+
+# Chapter 27: The repeated amend {.inverse} 
+
+## Recap
+- A *commit* is a snapshot of your project at a particular point in time.
+  - It captures changes made to files and records them in the version history.
+  - `git commit`
+- *Amend* is used to rewrite the last commit (e.g., update commit message or files).
+  - `git commit --amend`
+  - Allows fixing minor issues without creating a new commit
+
+## Mountain Climbing Analogy
+
+:::{.columns}
+::: {.column width="60%"}
+
+:::{.fragment}
+Think of your project as a mountain you're climbing.
+:::
+
+:::
+
+::: {.column width="40%"}
+
+:::{.fragment .fade-up}
+![](free_climbing.webp)
+:::
+
+:::
+:::
+
+
+## Mountain Climbing Analogy
+
+:::{.columns}
+::: {.column width="60%"}
+
+:::{.fragment}
+Coding without commits is like free-climbing:
+
+- faster in the short-term, but 
+- higher chance of catastrophic failure long-term
+  
+:::
+
+:::
+
+::: {.column width="40%"}
+
+:::{.fragment .fade-up}
+![](free_fall.webp)
+:::
+
+:::
+:::
+
+## Mountain Climbing Analogy
+
+:::{.columns}
+::: {.column width="60%"}
+
+:::{.fragment}
+Using a commit is like using anchors when climbing.
+
+:::
+
+:::
+
+::: {.column width="40%"}
+
+:::{.fragment .fade-up}
+![](anchor_climbing.webp)
+:::
+
+:::
+:::
+
+## Mountain Climbing Analogy
+
+:::{.columns}
+::: {.column width="60%"}
+
+:::{.fragment}
+If you make a mistake, you can’t fall past the previous commit
+
+:::
+
+:::
+
+::: {.column width="40%"}
+
+:::{.fragment .fade-up}
+![](anchor_fall.webp)
+:::
+
+:::
+:::
+
+
+## When to Use Amend
+
+- If you made a minor error or forgot to add files
+- If you need to update the commit message
+  - `git commit --amend`
+  - RStudio makes it very easy
+  
+:::{.fragment .fade-up}
+![](amend_commit.png){width=50%}
+:::
+
+## Potential Pitfalls
+
+- **Amending after pushing**:  
+  - You should avoid amending commits that have already been pushed to a shared repo
+  - Amending pushed commits rewrites history and can cause problems for collaborators
+  - Use with caution when working on shared repositories
+
+## Workflow - Step 1
+Start with your project in a functional state.
+
+- Use `git status` to check this.
+
+:::{.fragment .fade-up}
+![](git_status.png)
+:::
+
+## Workflow - Step 2
+
+Initial status of project.
+
+:::{.fragment .fade-up}
+![](commit_history.png){width=50%}
+:::
+
+
+
+## Workflow - Step 2
+
+Make a small change towards a larger objective and commit it as `WIP` (work in progress)
+
+```
+git commit -m "WIP"
+```
+  
+:::{.fragment .fade-up}
+![](commit_history_WIP.png){width=50%}
+:::
+
+# Don't push! {.inverse}
+
+## Workflow - Step 2
+
+- Do a bit more work. 
+- Re-check that your project is still in a functional state. 
+- Stage and commit again, with amended commit: `git commit --amend --no-edit`
+
+# Don't push! {.inverse}
+
+## Workflow - Step 2
+
+- Keep going until you've achieved your final objective.
+- Now amend the commit, but add a real message
+
+:::{.fragment .fade-up}
+```
+git commit --amend -m "Implement awesome feature"
+```
+
+:::
+
+:::{.fragment .fade-up}
+![](commit_history_final.png){width=35%}
+:::
+
+# Push! {.inverse}
+
+## Workflow - Step 3
+What if you make some changes that break your project?
+
+
+```
+A -- B -- C -- WIP* 
+```
+
+- You want to fall back to the last good state, represented by `WIP*`.
+  - This is called a *hard reset* to the `WIP*` state. 
+  - Meaning: “reset my files to their state at the most recent commit”.
+
+## Workflow - Step 3
+How to achieve?
+
+- command line: `git reset --hard`
+- RStudio:
+  - Click on “Diff” or “Commit”. 
+  - Select a file with changes you do not want. 
+  - Use “Discard All” to discard all changes in that file.
+  - Use “Discard chunk” to discard specific changes in a file. 
+    
+## Workflow - Step 4
+Let’s imagine you pushed this state to GitHub by mistake:
+```
+A -- B -- C -- WIP (85bf30a)
+```
+:::{.fragment}
+and proceeded to `git commit --amend` again locally, leading to this state:
+:::
+
+:::{.fragment}
+```
+A -- B -- C -- WIP* (6e884e6)
+```
+:::
+
+## Workflow - Step 4
+
+You have two choices:
+
+1. You're working with collaborators:
+  - Save a copy of any files that exist locally (with changes) to a new file path, temporarily. 
+  - Hard reset your local repo to C (`git reset --hard HEAD^`) and pull from GitHub. 
+
+:::{.fragment}
+```
+A -- B -- C -- WIP (85bf30a)
+```
+:::
+
+  - Bring any files saved temporarily elsewhere back into the repo now; save, stage, commit, and push. 
+  
+
+:::{.fragment}
+```
+A -- B -- C -- WIP (85bf30a) -- E
+```
+:::
+
+## Workflow - Step 4
+
+You have two choices:
+
+2. You have no collaborators:
+  - Make sure your local commit has a real, non-“WIP” message. 
+  - Force push your history to GitHub (`git push --force`).
+
+:::{.fragment}
+```
+A -- B -- C -- D
+```
+:::
+
+# Chapter 28: Dealing with push rejection
+
+## Problem
+
+Our push is rejected!
+
+```
+$ git push
+To https://github.com/YOU/REPO.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/YOU/REPO.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+:::{.fragment}
+This means that your local Git history and that on the GitHub remote are not compatible, i.e. they have diverged.
+:::
+
+## Solve the mystery
+
+Use `git status` to figure out where the divergence has occurred.
+
+:::{.fragment}
+Let's assume this is what we see on GitHub:
+```
+A -- B -- C
+```
+:::
+
+:::{.fragment}
+This is what we see locally:
+```
+A -- B -- D
+```
+:::
+
+## Fix the problem
+
+To reconcile the differences:
+
+1. Pull the commit C (`git pull`)
+2. Integrate the changes in C into your D-containing history. 
+3. Push again (`git push`)
+
+:::{.fragment}
+```
+A -- B -- C -- D
+```
+:::
+
+## Lessons
+
+1. She who pushes first wins!
+  - It is better for the overall health of a project to commit, push, and integrate more often, not less.
+  
+2. Stay in touch
+  - The sooner you know about C, the better. Pull (or fetch) often.
+
+3. Use branches
+  - Branches afford explicit workflows for integrating different lines of work on your own terms.
+
+# Chapter 29: Pull, but you have local work
+
+## Problem
+
+You want to pull upstream changes but have made local commits or uncommitted changes.
+
+:::{.fragment}
+### Example:
+:::
+
+- Remote: `A--B--C`
+- Local: `A--B--D`
+
+:::{.fragment}
+**Goal**: Incorporate `C` into your local branch without losing `D` or uncommitted changes.
+
+:::
+
+## Case 1: Local Work is Uncommitted
+
+### Scenario:
+- Remote: `A--B--C`
+- Local: `A--B--(uncommitted changes)`
+
+:::{.fragment}
+### Happy Cases:
+- Local changes don’t overlap with remote changes (e.g., new files).
+- Local changes affect different files than those changed upstream.
+
+**Outcome**: `git pull` works and fast-forward merge happens.
+
+```
+                 Remote: A--B--C
+
+Local before 'git pull': A--B--(uncommitted changes)
+ Local after 'git pull': A--B--C--(uncommitted changes)
+```
+
+:::
+
+## Case 1: Local Work is Uncommitted
+
+### `git stash` works, sometimes
+- Your changes affect a file that has also been changed in commit C.
+- `git pull` won't work
+
+:::{.fragment}
+Now what?
+
+- `git stash` is a way to temporarily store some changes to get them out of the way.
+```
+git stash save
+git pull
+git stash pop
+```
+
+**Outcome**: `git stash` is successful.
+
+:::
+
+## Case 1: Local Work is Uncommitted
+
+### `git stash` with conflicts
+- If the changes overlap, you'll get a conflict message when using `git stash pop`
+- You must resolve the merge conflict. 
+  1. At each locus of conflict, pick one version or the other (upstream or stashed) or create a hybrid yourself. 
+  2. Remove the all the markers inserted to demarcate the conflicts. 
+  3. Save.
+
+## Case 1: Local Work is Uncommitted
+
+### `git stash` with conflicts
+- Since `git stash pop` did not go smoothly, 
+  - we need to manually reset `git reset`
+  - and delete the stash `git stash drop`
+
+:::{.fragment}  
+**Outcome**: We did it!
+:::
+
+## Case 2: Local work is committed
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--D`.
+
+:::{.fragment}
+### Pull (fetch and merge)
+:::
+
+- The simplest option is to fetch the commits from upstream and merge them
+  - this is what `git pull` does
+- If there are no conflicts, we're done!
+
+## Case 2: Local work is committed
+
+:::{.fragment}
+### Pull (fetch and merge)
+:::
+- If commit C (on the remote) and commit D (local) have changes to the same parts of one or more files, this will result in a merge conflict.
+
+:::{.fragment}
+```
+jenny@2015-mbp ethel $ git pull
+Auto-merging foo.R
+CONFLICT (content): Merge conflict in foo.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+:::
+
+- You must resolve each conflict before continuing.
+
+## Case 2: Local work is committed
+
+:::{.fragment}
+### Pull (fetch and merge)
+Mark the affected file `foo.R` as resolved via `git add` and make an explicit `git commit` to finalize this merge.
+
+```
+jenny@2015-mbp ethel $ git add foo.R
+jenny@2015-mbp ethel $ git commit
+[main 20b297b] Merge branch 'main' of github.com:jennybc/ethel
+```
+
+**Outcome**: We've achieved this:
+```
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--D--(merge commit)
+                  \_C_/
+```
+:::
+
+## Case 2: Local work is committed
+
+### Pull and rebase
+- `git pull --rebase` creates a nicer history than `git pull` when integrating local and remote commits.
+  - it creates a less cluttered commit history
+  - can lead to more difficult to resolve merge conflicts
+
+:::{.fragment}
+**Outcome:** If no conflicts, we get this:
+```
+      Remote: A--B--C
+
+Local before: A--B--D
+ Local after: A--B--C--D
+```
+:::
+
+- Jenny's rec for beginners: use `git pull`
+
+## Case 3: Other approaches
+
+### Scenario:
+- Remote state is `A--B--C`.
+- Local state is `A--B--(uncommitted changes)`.
+
+:::{.fragment}
+### Use a temporary branch for local work
+:::
+
+1. Create a new, temporary branch
+2. Commit your uncommitted changes there 
+3. Checkout main and git pull to get changes from upstream 
+4. Recover the work from the commit in the temporary branch. 
+  a. Merge the temporary branch into main.
+  b. Cherry pick the commit from the temporary branch into main.
+
+# The end of the session 5!
+::: {.nonincremental}
+- **Next session:** 
+  - Subject: Daily Workflows, Part 2
+  - Date: 18 February @ 17:00 CET
+  - Presenter: Josefina Berardo
+  
+-   **Meetup for the Chapters**
+    -   [R-Ladies Amsterdam](https://www.meetup.com/rladies-amsterdam/)
+    -   [R-Ladies Bergen](https://www.meetup.com/rladies-bergen/)
+    -   [R-Ladies Den Bosch](https://www.meetup.com/nl-NL/rladies-den-bosch/)
+
+:::
+
+```{r, eval = FALSE}
+pagedown::chrome_print("session_05_gitremotesetups_dailyworkflows.html")
+
+```
