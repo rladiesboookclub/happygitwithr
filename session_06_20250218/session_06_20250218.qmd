@@ -1,0 +1,267 @@
+---
+title: "Happy Git and Github for the useR<BR>Session 06 - Daily Workflows, Part 2"
+subtitle: "Boook club R-Ladies Bergen, R-Ladies Den Bosch, R-Ladies Amsterdam"
+author: "Josefina Bernardo"
+format: 
+  rladies-revealjs:
+    embed-resources: true  # uncomment for making a selfcontained html for sharing
+    slide-number: true
+    pdf-max-pages-per-slide: 1
+    footer: "[R-Ladies Book Club]"
+    incremental: true
+---
+
+## What we will cover today:
+
+-   Time travel: See the past
+-   Fork and clone
+-   Get upstream changes for a fork
+-   Explore and extend a pull request
+-   Make a Github repo browsable
+
+## Chapter 30 - Time Travel: See the past
+
+## Looking at the history of a repository
+
+![](images/Screenshot%202025-02-16%20at%2017.00.55.png)
+
+## Looking at specific commits
+
+-   You can look at the commit, copy the SHA or browse the repository at that point in time
+
+![](images/Screenshot%202025-02-16%20at%2017.08.58.png)
+
+## Looking at contributors for a specific file
+
+-   We can look at the Code, Preview (rendered code) and Blame
+
+-   Blame is analogous to `git blame`
+
+![](images/Screenshot%202025-02-16%20at%2017.16.24.png)
+
+## Hyperlinks
+
+-   We can refer to past versions of the code using the SHA
+
+<!-- -->
+
+-   We can also copy the hyperlink to specific lines, e.g., <https://github.com/rladiesboookclub/happygitwithr/blob/main/README.md?plain=1#L8-L15>
+
+# Chapter 31 - Fork and clone
+
+## When to fork and clone
+
+-   If you want to propose a change to someone else's repo
+
+-   When in doubt, use 'fork and clone' over 'just clone'
+
+![](https://happygitwithr.com/img/fork-and-clone.jpeg)
+
+## How to fork and clone
+
+-   Method A: Browser, command line and RStudio
+
+-   Method B: Using `usethis::create_from_github()`
+
+## Method A: Browser, command line and RStudio
+
+## Method B: `create_from_github()`
+
+# Chapter 32 - Get upstream changes for a fork
+
+## Get upstream changes for a fork
+
+# Chapter 33 - Explore and extend a pull request
+
+## Explore and extend a pull request
+
+# Chapter 34 - Make a Github repo browsable
+
+## Browsability
+
+-   One of Github's advantages is that you can browse repositories in the browser
+
+-   Derived products may be useful to your audience - so you may want to consider keeping file formats such as .md which can be viewed on Github
+
+## R Markdown
+
+-   You can tweak a few options in the R Markdown settings to make it more Github-friendly
+
+-   Keep the .md file
+
+``` r
+---
+output:
+  html_document:
+    keep_md: TRUE
+---
+```
+
+-   Render directly to a Github document
+
+``` r
+---
+output: github_document
+---
+```
+
+## 
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+> This is part of the [Quarto documentation](https://quarto.org/docs/presentations/).
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+> This is part of the [Quarto documentation](https://quarto.org/docs/presentations/).
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: true
+1 + 1
+```
+
+> This is part of the [Quarto documentation](https://quarto.org/docs/presentations/).
+
+You can also add `text marked as code`!
+
+# New topic! {background-color="#562457"}
+
+To make a slide like this, use:
+
+```         
+# Title of slide {background-color="#562457"}
+```
+
+## Tabset example
+
+::: panel-tabset
+## Example 1
+
+Content here for tabset 1 :)
+
+## Example 2
+
+More content here, for tabset 2 :)
+:::
+
+## Incremental content
+
+Hi!
+
+. . .
+
+Use `. . .` to separate content as an incremental slide!
+
+## You can add R code
+
+```{r}
+#| echo: true
+library(dplyr)
+library(ggplot2)
+g <- starwars |> 
+  ggplot() +
+  geom_point(aes(x = height, y = mass)) +
+  theme_light()
+```
+
+## And show the results aswell :)
+
+```{r}
+#| fig.align: center
+#| echo: true
+g 
+```
+
+## What about tables? {.smaller}
+
+### `knitr::kable()`
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| label: kable-ex
+#| echo: true
+#| eval: false
+tab <- starwars |>
+  tidyr::drop_na(species) |> 
+  group_by(species) |>
+  summarise(
+    n = n(),
+    mean_heigth = round(mean(height, na.rm = TRUE)),
+    mean_mass = round(mean(mass, na.rm = TRUE))
+  ) |> 
+  slice_max(order_by = n, n = 4) 
+
+knitr::kable(tab)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| label: kable-ex
+#| eval: true
+```
+:::
+:::
+
+## `DT::datatable()` {.smaller}
+
+With the `smaller` class in the slide! Ex: `## slide name {.smaller}`
+
+```{r}
+DT::datatable(tab, options = list(pageLength = 5))
+```
+
+## `gt::gt()`
+
+```{r}
+gt::gt(tab)
+```
+
+## `reactable::reactable()`
+
+```{r}
+reactable::reactable(tab)
+```
+
+## Diagrams with Mermaid!
+
+Read about how to create a diagram in this [post by Mine Çetinkaya-Rundel](https://mine-cetinkaya-rundel.github.io/quarto-tip-a-day/posts/21-diagrams/).
+
+<center>
+
+<blockquote class="twitter-tweet" data-conversation="none">
+
+<p lang="en" dir="ltr">
+
+<a href="https://twitter.com/hashtag/quartotip?src=hash&amp;ref_src=twsrc%5Etfw">#quartotip</a> 21: Create diagrams in Quarto documents using Mermaid or Graphviz in executable code cells, similar to how you create figures.<br><br>Read more: <a href="https://t.co/3qx9oSNCay">https://t.co/3qx9oSNCay</a> <a href="https://t.co/fYzGcISl4h">pic.twitter.com/fYzGcISl4h</a>
+
+</p>
+
+— Quarto (@quarto_pub) <a href="https://twitter.com/quarto_pub/status/1549271325943947270?ref_src=twsrc%5Etfw">July 19, 2022</a>
+
+</blockquote>
+
+```{=html}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+</center>
+
+## Exporting into PDF
+
+You can use the function `pagedown::chrome_print()` to print the HTML version into a PDF!
+
+``` r
+pagedown::chrome_print("path-to-file.html")
+```
